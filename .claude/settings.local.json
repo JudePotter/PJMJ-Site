@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(npx --yes create-tsrouter-app@latest . --template file-router --tailwind --add-ons)",
+      "Bash(npx --yes @tanstack/cli create --help)",
+      "Bash(npx --yes @tanstack/cli create pjmj-studios --framework react --no-examples --no-git --package-manager npm --non-interactive --target-dir \".\" --toolchain eslint)",
+      "Bash(npx --yes @tanstack/cli create pjmj-studios --framework react --no-examples --no-git --package-manager npm --non-interactive --target-dir \".\" --toolchain eslint -f)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
