@@ -30,7 +30,7 @@ const bodyCopy = [
   'That means bespoke code over page builders, structure that search engines can actually read, and a relationship that carries on past the handover, because a site that stops being looked after starts quietly failing the day it launches.',
 ]
 
-export function About() {
+function About() {
   return (
     <main>
       <section className="mx-auto max-w-[1400px] px-6 pt-40 pb-16 md:px-12 md:pt-48 md:pb-24">

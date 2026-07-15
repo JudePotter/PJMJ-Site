@@ -10,8 +10,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1400px] px-6 py-16 md:px-12">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           <div>
-            <span className="mb-4 inline-flex items-center justify-center rounded-sm border border-dashed border-ink/30 p-1.5">
-              <Logo size={26} />
+            <span className="mb-4 inline-flex items-center justify-center">
+              <Logo size={39} />
             </span>
             <p className="display text-2xl">PJMJ Studios</p>
             <p className="font-display mt-3 max-w-xs text-sm font-light text-muted-foreground">

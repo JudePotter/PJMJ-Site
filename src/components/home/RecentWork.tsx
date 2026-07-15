@@ -53,19 +53,19 @@ function ProjectRowContent({ project }: { project: (typeof projects)[number] }) 
           </p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <span className="eyebrow text-right transition-colors duration-500 group-hover:text-paper/70">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:flex-nowrap">
+          <span className="eyebrow text-left transition-colors duration-500 group-hover:text-paper/70 md:text-right">
             {project.category}
           </span>
           {project.href ? (
-            <span className="flex items-center gap-1 text-xs font-medium tracking-wide text-paper opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="flex items-center gap-1 text-xs font-medium tracking-wide text-racing opacity-100 transition-opacity duration-300 group-hover:text-paper md:opacity-0 md:group-hover:opacity-100">
               {project.linkLabel ?? 'Visit site'}
               <ArrowUpRight size={14} className="text-gold" />
             </span>
           ) : (
             <ArrowUpRight
               size={20}
-              className="-translate-x-2 text-gold opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+              className="text-gold opacity-100 transition-all duration-300 md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
             />
           )}
         </div>
