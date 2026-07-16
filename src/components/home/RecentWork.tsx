@@ -29,6 +29,15 @@ function ProjectRow({ children }: { children: ReactNode }) {
   return <div className="group relative border-b border-rule">{children}</div>
 }
 
+function WriteUpBlock({ label, text }: { label: string; text: string }) {
+  return (
+    <div>
+      <p className="eyebrow mb-3 text-racing">{label}</p>
+      <ScrollReveal className="font-display leading-relaxed font-light">{text}</ScrollReveal>
+    </div>
+  )
+}
+
 function ProjectRowContent({ project }: { project: (typeof projects)[number] }) {
   const inner = (
     <>
@@ -83,18 +92,11 @@ function ProjectRowContent({ project }: { project: (typeof projects)[number] }) 
         <div className="relative">{inner}</div>
       )}
 
-      {project.body ? (
-        <div className="relative z-10 max-w-3xl px-6 pb-14 md:px-4">
-          {project.body.map((paragraph, i) => (
-            <ScrollReveal
-              key={i}
-              className="font-display mb-4 leading-relaxed font-light last:mb-0"
-            >
-              {paragraph}
-            </ScrollReveal>
-          ))}
-        </div>
-      ) : null}
+      <div className="relative z-10 grid max-w-4xl grid-cols-1 gap-8 px-6 pb-14 md:grid-cols-3 md:px-4">
+        <WriteUpBlock label="Context" text={project.context} />
+        <WriteUpBlock label="Mandate" text={project.mandate} />
+        <WriteUpBlock label="Result" text={project.result} />
+      </div>
     </>
   )
 }
