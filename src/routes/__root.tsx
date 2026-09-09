@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { Analytics } from '@vercel/analytics/react'
 
 import appCss from '../styles.css?url'
 import { SiteHeader } from '#/components/SiteHeader'
@@ -109,6 +110,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <SiteHeader logoRef={logoRef} />
         {children}
         <SiteFooter />
+        <Analytics />
         <Scripts />
       </body>
     </html>
