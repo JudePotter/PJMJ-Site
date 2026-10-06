@@ -1,0 +1,610 @@
+@import 'tailwindcss';
+
+/*
+  Citrus palette. These are the only colours on the site. White is used only
+  for text and small labels sitting on a coloured field (cobalt band, work
+  frame), never as a surface.
+*/
+:root {
+  --bg: #f5f3ee;
+  --ink: #111111;
+  --lime: #d7f75b;
+  --cobalt: #2b4bff;
+  --grey: #a3a19b;
+  --ghost: #d4d1c9;
+  --body: #4a4945;
+  --line: #cfcbc2;
+  --muted-dark: #7d7b75;
+  --footer-text: #e9e6df;
+  --live: #2fbf5b;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Page edge padding. Everything lines up to this. */
+  --gutter: clamp(1.25rem, 5.1vw, 6rem);
+
+  /* Type scale. Wordmark and big headings sit tight: -0.05em, line height 0.9. */
+  /* The wordmark never wraps. 10.4vw on desktop, 3rem on phones, and on the
+     very narrow ones it shrinks so the mark and lettering still fit between
+     the gutters (they are about 6.75em wide together). */
+  --fs-wordmark: clamp(
+    2rem,
+    min(max(10.4vw, 3rem), calc((100vw - 2.5rem) / 6.75)),
+    9.5rem
+  );
+  --fs-strap: clamp(1.4rem, 2.55vw, 2.5rem);
+  --fs-h2: clamp(2.75rem, 5.2vw, 5rem);
+  --fs-band: clamp(2.5rem, 4.9vw, 4.75rem);
+  --fs-service: clamp(1.75rem, 3.6vw, 3.25rem);
+  --fs-nav: clamp(1.05rem, 1.5vw, 1.375rem);
+
+  /* Footer reveal. --footer-h is measured and set by the footer itself, this
+     is only the value before it runs. */
+  --footer-h: 40rem;
+  --shell-radius: clamp(2rem, 3.4vw, 3rem);
+
+  /* Work field. The frame sits in the pinned stage with a band of cream above
+     and below it. The bottom band is at least --work-band, so the floating
+     "taking on new clients" bubble has clear room under the frame instead of
+     touching it. On tall screens the frame is centred; on shorter ones it
+     lifts a little. .work-pull trims both bands down to --work-gap so the
+     frame sits close to the hero above and the services below. */
+  --work-frame-h: min(860px, calc(100svh - 7rem));
+  --work-band: 4.75rem;
+  --work-top: min(
+    calc((100svh - var(--work-frame-h)) / 2),
+    calc(100svh - var(--work-frame-h) - var(--work-band))
+  );
+  --work-bottom: calc(100svh - var(--work-frame-h) - var(--work-top));
+  --work-gap: clamp(1.25rem, 2.6vw, 2.5rem);
+}
+
+@theme inline {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-lime: var(--lime);
+  --color-cobalt: var(--cobalt);
+  --color-grey: var(--grey);
+  --color-ghost: var(--ghost);
+  --color-body: var(--body);
+  --color-line: var(--line);
+  --color-muted-dark: var(--muted-dark);
+  --color-footer-text: var(--footer-text);
+  --color-live: var(--live);
+
+  /* The next/font variables are set in layout.tsx. Swap fonts there. */
+  --font-sans:
+    var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* Type utilities. Weights are set here and nowhere else. */
+@utility t-display {
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+@utility t-accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+@utility t-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 3px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/*
+  Footer reveal. The footer is fixed behind the page the whole time. The page
+  shell has a rounded bottom and a bottom margin equal to the footer height,
+  so at the end of the scroll the page lifts away and uncovers the footer.
+
+  The rounded bottom edge is a clip-path, not overflow: clip with a
+  border-radius, which avoids the rasterising tears Chrome can show on very
+  tall surfaces.
+*/
+.page-shell {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  background: var(--bg);
+  clip-path: inset(0 round 0 0 var(--shell-radius) var(--shell-radius));
+  margin-bottom: var(--footer-h);
+}
+
+.site-footer {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 0;
+  background: var(--ink);
+  color: var(--footer-text);
+}
+
+/* The footer is covered by the page until the very end, and it sizes its
+   wordmark with JavaScript. Keep it hidden until that is done so it never
+   shifts on first load. Without scripts it simply shows. */
+.js .site-footer:not([data-ready]) {
+  visibility: hidden;
+}
+
+/* Safety net: if the footer is ever taller than the screen it stops being
+   fixed and flows after the page, so nothing is cut off. */
+.site-footer[data-static] {
+  position: relative;
+}
+
+/* The footer's ink runs up behind the shell by the corner radius, so what
+   shows through the shell's rounded corners is the footer, not the page. */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: calc(-1 * var(--shell-radius));
+  height: var(--shell-radius);
+  background: var(--ink);
+  pointer-events: none;
+}
+
+/*
+  Pre hydration states. The inline script in layout.tsx adds .js to <html>
+  before first paint, so animated things start hidden with no flash and the
+  page still works if scripts never run.
+*/
+.js [data-reveal] {
+  opacity: 0;
+}
+.hero-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.08em 0 0.14em;
+  margin: -0.08em 0 -0.14em;
+}
+.hero-letter {
+  display: inline-block;
+}
+
+/*
+  Hero intro. Pure CSS, so the wordmark animates the moment the page paints
+  instead of waiting on JavaScript. Same curve and timings as the Dental
+  Growth Lab hero: letters rise with a stagger, the petal spins in and
+  settles, then the strapline, status and nav fade up after.
+*/
+@keyframes letter-rise {
+  from {
+    transform: translateY(118%);
+  }
+}
+@keyframes petal-in {
+  from {
+    opacity: 0;
+    transform: rotate(-260deg) scale(0.35);
+  }
+}
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--rise, 24px));
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.hero-letter {
+  animation: letter-rise 1.1s var(--ease) both;
+  animation-delay: calc(0.15s + var(--i, 0) * 0.06s);
+}
+.hero-petal {
+  animation: petal-in 1.6s var(--ease) both;
+}
+.hero-in {
+  animation: fade-rise 0.9s var(--ease) both;
+  animation-delay: var(--delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-letter {
+    animation: fade-in 0.8s ease-out both;
+    animation-delay: calc(var(--i, 0) * 0.04s);
+  }
+  .hero-petal,
+  .hero-in {
+    animation: fade-in 0.8s ease-out both;
+    animation-delay: var(--delay, 0s);
+  }
+}
+
+/*
+  The highlight on "actually remember." wipes in like a marker pen once the
+  strapline has risen. Gradient, not a background colour, so it can grow from
+  the left. box-decoration-break: clone (set in Hero) keeps it working when
+  the phrase wraps onto two lines.
+*/
+@keyframes mark-wipe {
+  from {
+    background-size: 0% 100%;
+  }
+}
+.hero-mark {
+  background: linear-gradient(var(--lime), var(--lime)) no-repeat left center /
+    100% 100%;
+  animation: mark-wipe 1.1s var(--ease) 1.2s both;
+}
+
+/*
+  The availability badge. At rest it is an outlined pill. On hover or focus it
+  fills lime from the left, pulses, throws a ring, speeds the live dot up and
+  slides an arrow in, so it reads as something to press. If nobody has touched
+  it after a few seconds (data-nudge, set in Hero) it gives the same pulse and
+  ring on its own, without the fill, until it is hovered.
+*/
+@keyframes cta-pulse {
+  50% {
+    scale: 1.035;
+  }
+}
+@keyframes cta-ring {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--lime) 85%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--lime) 0%, transparent);
+  }
+}
+.status-cta {
+  --cta-pulse:
+    cta-pulse 1.6s ease-in-out infinite, cta-ring 1.6s ease-out infinite;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+}
+.status-cta[data-nudge] {
+  animation: var(--cta-pulse);
+}
+.status-cta[data-nudge] .live-dot {
+  animation-duration: 0.9s;
+}
+.status-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease);
+}
+.status-cta-arrow {
+  display: inline-block;
+  max-width: 0;
+  /* cancels the flex gap in front of it while it is hidden */
+  margin-left: -0.9em;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-0.6em);
+  transition:
+    max-width 0.5s var(--ease),
+    margin-left 0.5s var(--ease),
+    opacity 0.4s var(--ease),
+    transform 0.5s var(--ease);
+}
+.status-cta:active::before {
+  transform: scaleX(1);
+}
+.status-cta:focus-visible {
+  outline-offset: 4px;
+}
+.status-cta:focus-visible::before {
+  transform: scaleX(1);
+}
+.status-cta:focus-visible .status-cta-arrow {
+  max-width: 1.5em;
+  margin-left: 0;
+  opacity: 1;
+  transform: none;
+}
+@media (hover: hover) {
+  .status-cta:hover::before {
+    transform: scaleX(1);
+  }
+  .status-cta:hover .status-cta-arrow {
+    max-width: 1.5em;
+    margin-left: 0;
+    opacity: 1;
+    transform: none;
+  }
+  .status-cta:hover {
+    animation: var(--cta-pulse);
+  }
+  .status-cta:hover .live-dot {
+    animation-duration: 0.9s;
+  }
+}
+
+/* The floating "taking on new clients" bubble. Fixed bottom left, above the
+   page and the footer. It rises in when shown and is inert when hidden. */
+.floating-cta {
+  position: fixed;
+  z-index: 40;
+  left: var(--gutter);
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  max-width: calc(100vw - 2 * var(--gutter));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.6s var(--ease),
+    visibility 0s linear 0.6s;
+}
+.floating-cta[data-shown='true'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--live) 0%, transparent);
+  }
+}
+.live-dot {
+  animation: live-pulse 2.4s ease-out infinite;
+}
+
+/* Work field. Pinned on big screens, stacked cards everywhere else. The
+   media query must match WORK_PIN_MQ in src/lib/scrollFeel.ts. */
+.work-pinned {
+  display: none;
+}
+@media (min-width: 1024px) and (min-height: 620px) {
+  .work-pinned {
+    display: block;
+    /* The stage overlaps the sections around it by the trimmed gap, so only
+       the parts with something in them take clicks. */
+    pointer-events: none;
+  }
+  .work-pinned .work-left,
+  .work-pinned .work-frame {
+    pointer-events: auto;
+  }
+  .work-pull {
+    margin-top: calc(var(--work-gap) - var(--work-top));
+    margin-bottom: calc(var(--work-gap) - var(--work-bottom));
+  }
+  .work-stacked {
+    display: none;
+  }
+}
+
+.work-grid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: clamp(14rem, 20.8vw, 19rem) minmax(0, 1fr);
+  column-gap: clamp(2rem, 4.2vw, 4rem);
+  align-items: start;
+  padding-top: var(--work-top);
+  padding-inline: var(--gutter);
+}
+.work-frame-h {
+  height: var(--work-frame-h);
+}
+.js .work-left {
+  opacity: 0;
+}
+.js .work-pinned [data-slide]:not([data-slide='0']) {
+  clip-path: inset(100% 0 0 0);
+}
+
+.work-pinned [data-label]:not([data-label='0']) {
+  visibility: hidden;
+}
+
+.idx-row {
+  position: relative;
+  overflow: hidden;
+}
+.idx-small,
+.idx-big {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+}
+.idx-small {
+  padding-block: 0.25rem;
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ghost);
+  transition: color 0.3s var(--ease);
+  cursor: pointer;
+}
+.idx-small:hover {
+  color: var(--grey);
+}
+.idx-small:focus-visible {
+  outline-offset: -2px;
+}
+.idx-name {
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+/* Frame composition. The frame is a size container. The 5:4 artwork is
+   contained inside it (as large as fits), and the frame is painted the
+   artwork's background colour, so a frame wider than 5:4 shows no edge. */
+.work-frame {
+  container-type: size;
+  position: relative;
+  overflow: hidden;
+}
+.stage-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100cqw, 125cqh);
+  aspect-ratio: 5 / 4;
+  transform: translate(-50%, -50%);
+}
+.stage-media {
+  position: absolute;
+  inset: 0;
+}
+.stage-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.stage-video[data-playing='true'] {
+  opacity: 1;
+}
+
+/* Services */
+.svc-fill {
+  position: absolute;
+  inset: 1px -0.75rem 0;
+  border-radius: 0.5rem;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s var(--ease);
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .svc-fill {
+    inset-inline: -1.6rem;
+  }
+}
+@media (hover: hover) {
+  .svc-row:hover .svc-fill {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+.svc-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+  pointer-events: none;
+}
+.js .svc-line {
+  transform: scaleX(0);
+}
+.js .svc-content,
+.js [data-svc-head] {
+  opacity: 0;
+}
+
+/* You own it band */
+.band-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.06em 0 0.16em;
+  margin: -0.06em 0 -0.16em;
+}
+.band-line-inner {
+  display: inline-block;
+}
+.js .band-line-inner {
+  visibility: hidden;
+}
+.js [data-band-in] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot {
+    animation: none;
+  }
+  .hero-mark {
+    animation: none;
+  }
+  .status-cta:hover,
+  .status-cta[data-nudge],
+  .status-cta:hover .live-dot,
+  .status-cta[data-nudge] .live-dot {
+    animation: none;
+  }
+  .status-cta::before,
+  .status-cta-arrow,
+  .floating-cta {
+    transition-duration: 0.01ms;
+  }
+  .svc-fill,
+  .stage-video {
+    transition-duration: 0.01ms;
+  }
+}

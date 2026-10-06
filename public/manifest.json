@@ -1,25 +1,29 @@
 {
-  "short_name": "PJMJ Studios",
-  "name": "PJMJ Studios",
+  "id": "/",
+  "short_name": "PJMJ Studio",
+  "name": "PJMJ Studio",
+  "description": "Hand coded websites in Brighton for businesses that don’t do templates.",
+  "lang": "en-GB",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/favicon.ico",
+      "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#004225",
-  "background_color": "#FAF7F0"
+  "theme_color": "#111111",
+  "background_color": "#F5F3EE"
 }
