@@ -1,7 +1,7 @@
 /**
  * Geometry for the PJMJ mark, traced from public/logo.png so the shape is the
  * real logo. Colours are applied by the consumer (PetalMark.tsx uses the site
- * tokens, the social image uses the same values as plain hex).
+ * tokens, scripts/make-icons.mjs uses the same values as plain hex for the icons).
  *
  * All numbers are in the logo's own pixel space (750 by 690). The viewBox is a
  * square centred on the middle of the flower, so spinning the mark turns it

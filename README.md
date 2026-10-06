@@ -28,7 +28,7 @@ npm run check
 - `src/content/projects.ts`: all six projects, frame colours, asset paths
 - `src/content/site.ts`: contact details, availability line, and the search and share copy (`seo`)
 - `src/lib/seo.ts`: canonical URL and JSON-LD. The domain defaults to https://www.pjmjstudios.co.uk; set `NEXT_PUBLIC_SITE_URL` to override it. Set `GOOGLE_SITE_VERIFICATION` to add the Search Console tag
-- `src/app/opengraph-image.tsx`: the social share card, built at build time
+- `public/og-image.png`: the social share image (1200 by 630), set as the default in `src/app/layout.tsx`. Its alt text is `seo.imageAlt` in `site.ts`
 - `src/components/petalPaths.ts`: the logo mark, traced from `public/logo.png`
 - `src/app/icon.svg`, `favicon.ico`, `apple-icon.png` and `public/logo192.png`, `logo512.png`: the icons, all generated from the logo by `node scripts/make-icons.mjs`. Run it after the logo or palette changes
 - `public/work/[slug]/`: `cover.webp` (5:4 artwork) and an optional `loop.mp4` for each project. Run each new video through `python3 scripts/tag-video-srgb.py <file>` first, so browsers do not show it a shade off the frame colour

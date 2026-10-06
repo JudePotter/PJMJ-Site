@@ -47,7 +47,8 @@ export const metadata: Metadata = {
   publisher: site.name,
   category: 'technology',
   alternates: { canonical: '/', languages: { 'en-GB': '/' } },
-  // The social image comes from opengraph-image.tsx in this folder.
+  // The share image is public/og-image.png, 1200 by 630. It is the default
+  // for the whole site; metadataBase makes the paths below absolute.
   openGraph: {
     type: 'website',
     url: '/',
@@ -55,11 +56,23 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     title: seo.title,
     description: seo.description,
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: seo.imageAlt,
+        type: 'image/png',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: seo.title,
     description: seo.description,
+    images: [
+      { url: '/og-image.png', width: 1200, height: 630, alt: seo.imageAlt },
+    ],
   },
   robots: {
     index: true,

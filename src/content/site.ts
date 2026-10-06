@@ -35,12 +35,15 @@ export const site = {
  * Search and sharing copy. The title stays under about 60 characters and the
  * description under about 160, so they are not cut off in results. The same
  * title and description are used for the page, the social cards (Open Graph
- * and Twitter) and the structured data.
+ * and Twitter) and the structured data. The share image is
+ * public/og-image.png (1200 by 630), and imageAlt describes it.
  */
 export const seo = {
   title: 'PJMJ Studio | Web Designer in Brighton & Hove',
   description:
     'Bespoke, hand coded websites for small businesses in Brighton, Hove and Sussex. Designed to be found, built to last, and yours to own.',
+  imageAlt:
+    'PJMJ Studio: Built to last. Bespoke websites, hand coded by the sea.',
   keywords: [
     'Brighton web developer',
     'web designer Brighton',
