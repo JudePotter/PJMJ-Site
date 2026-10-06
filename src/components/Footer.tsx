@@ -150,6 +150,33 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href={`tel:${site.phoneTel}`} className={LINK}>
+                  {site.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={site.googleProfile}
+                  target="_blank"
+                  rel="noopener"
+                  className={LINK}
+                >
+                  Find us on Google
+                </a>
+              </li>
+              {site.googleReview && (
+                <li>
+                  <a
+                    href={site.googleReview}
+                    target="_blank"
+                    rel="noopener"
+                    className={LINK}
+                  >
+                    Leave us a review
+                  </a>
+                </li>
+              )}
+              <li>
                 <a
                   href={site.instagram}
                   target="_blank"

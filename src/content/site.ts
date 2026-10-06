@@ -1,6 +1,18 @@
 export const site = {
   name: 'PJMJ Studio',
   email: 'webdev@judepotter.net',
+  /** As written on the Google Business Profile. Keep the two the same. */
+  phone: '+44 7950 694900',
+  /** The same number for tel: links and structured data (no spaces). */
+  phoneTel: '+447950694900',
+  /** The Google Business Profile (Maps listing). */
+  googleProfile: 'https://share.google/PkHepjthPyfASlmjj',
+  /**
+   * The "write a review" link from the Business Profile (Share review form).
+   * PLACEHOLDER: empty hides the "Leave us a review" link in the footer. Paste
+   * the link here and it appears.
+   */
+  googleReview: '',
   linkedin: 'https://uk.linkedin.com/in/jude-potter-0bba4b1b5',
   // PLACEHOLDER: swap for the real Instagram profile.
   instagram: 'https://www.instagram.com/',

@@ -36,6 +36,8 @@ export function structuredData() {
         description: seo.description,
         slogan: 'Websites people actually remember',
         email: site.email,
+        telephone: site.phoneTel,
+        hasMap: site.googleProfile,
         logo: {
           '@type': 'ImageObject',
           url: `${siteUrl}/logo512.png`,
@@ -65,7 +67,7 @@ export function structuredData() {
         ],
         // The Instagram link is still a placeholder (see site.ts), so it is
         // left out until there is a real profile.
-        sameAs: [site.linkedin],
+        sameAs: [site.googleProfile, site.linkedin],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: 'Services',
