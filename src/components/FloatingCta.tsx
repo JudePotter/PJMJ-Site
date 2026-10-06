@@ -31,7 +31,7 @@ export default function FloatingCta() {
         label={site.statusShort}
         fontSize="clamp(0.68rem, 0.8vw, 0.78rem)"
         active={shown}
-        className="bg-bg"
+        className="bg-bg text-balance"
       />
     </div>
   )

@@ -227,7 +227,9 @@ export default function Footer() {
           </span>
         </div>
 
-        <div className="t-label mt-4 flex justify-between gap-4 text-muted-dark">
+        {/* The right padding keeps the labels clear of the WhatsApp button on
+            screens too narrow for it to sit in the margin. */}
+        <div className="t-label mt-4 flex flex-wrap justify-between gap-x-4 gap-y-1 pr-14 text-muted-dark min-[1100px]:pr-0">
           <p>
             © {site.name} {site.year}
           </p>

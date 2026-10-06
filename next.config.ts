@@ -5,9 +5,10 @@ const nextConfig: NextConfig = {
   // blocking request on first load.
   experimental: { inlineCss: true },
 
-  // The dev only "N" badge sits bottom left by default, which is where the
-  // floating contact bubble lives. Nothing here reaches production.
-  devIndicators: { position: 'bottom-right' },
+  // The dev only "N" badge sits bottom left by default, and the floating
+  // contact bubble and the WhatsApp button live in the bottom corners.
+  // Nothing here reaches production.
+  devIndicators: { position: 'top-right' },
 
   // Work covers are crisp UI mockups, so they are served at 90. Next only
   // allows qualities that are listed here.

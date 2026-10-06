@@ -5,6 +5,12 @@ export const site = {
   phone: '+44 7950 694900',
   /** The same number for tel: links and structured data (no spaces). */
   phoneTel: '+447950694900',
+  /**
+   * The WhatsApp button (bottom right) opens a chat with the number above and
+   * this message already typed, so a visitor only has to press send.
+   */
+  whatsappMessage:
+    "Hi, I'm interested in a website. Could we book a meeting, please?",
   /** The Google Business Profile (Maps listing). */
   googleProfile: 'https://share.google/PkHepjthPyfASlmjj',
   /**
@@ -14,8 +20,7 @@ export const site = {
    */
   googleReview: '',
   linkedin: 'https://uk.linkedin.com/in/jude-potter-0bba4b1b5',
-  // PLACEHOLDER: swap for the real Instagram profile.
-  instagram: 'https://www.instagram.com/',
+  instagram: 'https://www.instagram.com/pjmj.studio/',
   location: 'Brighton, UK',
   status: 'Currently taking on clients for Winter 2026',
   /** The short version, on the floating bubble. */

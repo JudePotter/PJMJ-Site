@@ -6,6 +6,7 @@ import SmoothScroll from '@/components/SmoothScroll'
 import MotionProvider from '@/components/MotionProvider'
 import Footer from '@/components/Footer'
 import FloatingCta from '@/components/FloatingCta'
+import WhatsAppButton from '@/components/WhatsAppButton'
 import { seo, site } from '@/content/site'
 import { siteUrl } from '@/lib/seo'
 
@@ -124,6 +125,7 @@ export default function RootLayout({
           <div className="page-shell">{children}</div>
           <Footer />
           <FloatingCta />
+          <WhatsAppButton />
         </MotionProvider>
         <Analytics />
       </body>

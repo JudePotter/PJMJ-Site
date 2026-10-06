@@ -65,9 +65,7 @@ export function structuredData() {
           'Branding',
           'Copywriting',
         ],
-        // The Instagram link is still a placeholder (see site.ts), so it is
-        // left out until there is a real profile.
-        sameAs: [site.googleProfile, site.linkedin],
+        sameAs: [site.googleProfile, site.linkedin, site.instagram],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: 'Services',

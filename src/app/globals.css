@@ -57,6 +57,12 @@
   );
   --work-bottom: calc(100svh - var(--work-frame-h) - var(--work-top));
   --work-gap: clamp(1.25rem, 2.6vw, 2.5rem);
+
+  /* The WhatsApp button (2.5rem wide) sits in the right hand page margin, so
+     it stays clear of the content, which ends at the gutter. Where the margin
+     is too narrow to hold it (phones, small tablets) it keeps 0.75rem from the
+     edge instead. */
+  --fab-right: max(0.75rem, calc((var(--gutter) - 2.5rem) / 2));
 }
 
 @theme inline {
@@ -379,13 +385,15 @@ html.lenis body {
 }
 
 /* The floating "taking on new clients" bubble. Fixed bottom left, above the
-   page and the footer. It rises in when shown and is inert when hidden. */
+   page and the footer. It rises in when shown and is inert when hidden. The
+   width stops short of the WhatsApp button on the right (2.5rem wide, plus a
+   gap), so on a phone the two never touch. */
 .floating-cta {
   position: fixed;
   z-index: 40;
   left: var(--gutter);
   bottom: max(1rem, env(safe-area-inset-bottom));
-  max-width: calc(100vw - 2 * var(--gutter));
+  max-width: calc(100vw - var(--gutter) - var(--fab-right) - 3.25rem);
   opacity: 0;
   visibility: hidden;
   transform: translateY(14px);
@@ -399,6 +407,70 @@ html.lenis body {
   visibility: visible;
   transform: none;
   transition-delay: 0s;
+}
+
+/* The WhatsApp button. Small and fixed bottom right, in the brand colours:
+   lime with an ink outline at rest, cobalt with a lime glyph on hover, with a
+   ring that pulses outwards. It fades in a moment after the hero. The ::after
+   grows the tap area to 48px without growing the button. */
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+}
+@keyframes fab-ring {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--cobalt) 45%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 12px color-mix(in srgb, var(--cobalt) 0%, transparent);
+  }
+}
+.whatsapp-fab {
+  position: fixed;
+  z-index: 40;
+  right: var(--fab-right);
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 9999px;
+  background: var(--lime);
+  color: var(--ink);
+  animation: fab-in 0.7s var(--ease) 1.6s both;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    scale 0.4s var(--ease);
+}
+.whatsapp-fab::after {
+  content: '';
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: inherit;
+}
+.whatsapp-fab svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.whatsapp-fab:active {
+  scale: 0.94;
+}
+.whatsapp-fab:focus-visible {
+  outline-offset: 4px;
+  background: var(--cobalt);
+  color: var(--lime);
+}
+@media (hover: hover) {
+  .whatsapp-fab:hover {
+    background: var(--cobalt);
+    color: var(--lime);
+    scale: 1.08;
+    animation: fab-ring 1.6s ease-out infinite;
+  }
 }
 
 @keyframes live-pulse {
@@ -603,8 +675,13 @@ html.lenis body {
   }
   .status-cta::before,
   .status-cta-arrow,
-  .floating-cta {
+  .floating-cta,
+  .whatsapp-fab {
     transition-duration: 0.01ms;
+  }
+  .whatsapp-fab,
+  .whatsapp-fab:hover {
+    animation: none;
   }
   .svc-fill,
   .stage-video {
