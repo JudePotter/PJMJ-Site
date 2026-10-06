@@ -53,13 +53,13 @@ export const metadata: Metadata = {
     url: '/',
     siteName: site.name,
     locale: 'en_GB',
-    title: seo.shareTitle,
-    description: seo.shareDescription,
+    title: seo.title,
+    description: seo.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: seo.shareTitle,
-    description: seo.shareDescription,
+    title: seo.title,
+    description: seo.description,
   },
   robots: {
     index: true,
@@ -80,14 +80,8 @@ export const metadata: Metadata = {
   verification: process.env.GOOGLE_SITE_VERIFICATION
     ? { google: process.env.GOOGLE_SITE_VERIFICATION }
     : undefined,
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
-      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon-16.png', type: 'image/png', sizes: '16x16' },
-    ],
-    apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
-  },
+  // The tab, Apple and app icons come from icon.svg, favicon.ico and
+  // apple-icon.png in this folder (Next.js file conventions).
   manifest: '/manifest.json',
 }
 

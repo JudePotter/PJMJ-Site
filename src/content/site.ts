@@ -32,18 +32,15 @@ export const site = {
 } as const
 
 /**
- * Search and sharing copy. Titles stay under about 60 characters and the
- * description under about 160, so they are not cut off in results.
+ * Search and sharing copy. The title stays under about 60 characters and the
+ * description under about 160, so they are not cut off in results. The same
+ * title and description are used for the page, the social cards (Open Graph
+ * and Twitter) and the structured data.
  */
 export const seo = {
-  /** The page title in search results: the thing people search, then the brand. */
-  title: 'Brighton Web Developer | Hand Coded Websites | PJMJ Studio',
-  /** The title on social cards, where the line is the point. */
-  shareTitle: 'PJMJ Studio | Websites people actually remember',
+  title: 'PJMJ Studio | Web Designer in Brighton & Hove',
   description:
-    'PJMJ Studio is a Brighton web developer. We hand code websites, with SEO, branding and copy, for businesses that don’t do templates. You own it, all of it.',
-  shareDescription:
-    'Hand coded in Brighton for businesses that don’t do templates. Design, development, SEO, branding and copy. You own it, all of it.',
+    'Bespoke, hand coded websites for small businesses in Brighton, Hove and Sussex. Designed to be found, built to last, and yours to own.',
   keywords: [
     'Brighton web developer',
     'web designer Brighton',
