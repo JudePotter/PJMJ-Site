@@ -530,8 +530,8 @@ export default function WorkField() {
                       className={frameTextClass(project.frameColor)}
                       style={{ gridArea: '1 / 1' }}
                     >
-                      {project.cornerLeft.map((line) => (
-                        <div key={line}>{line}</div>
+                      {project.tags.map((tag) => (
+                        <div key={tag}>{tag}</div>
                       ))}
                     </div>
                   ))}

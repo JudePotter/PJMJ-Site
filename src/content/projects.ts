@@ -10,19 +10,21 @@
  *   [tags] [tags] [tags] ..... the pills under the paragraph
  *
  *   +--------------------------------------------------+
- *   | cornerLeft[0]                       name         |  top corners of the
- *   | cornerLeft[1]                       date         |  artwork
- *   |                                                  |
+ *   | tags[0]                             name         |  top corners of the
+ *   | tags[1]                             date         |  artwork
+ *   | tags[2]                                          |
  *   |            the 5:4 cover or video                |
  *   +--------------------------------------------------+
  *
- *   On phones the corners are left off. Each card instead shows the title,
- *   a line reading "sector . date", the description and the tags.
+ *   The same tags, in the same order, are the pills under the paragraph and
+ *   the labels in the top left corner of the artwork. There is no second
+ *   list, so they cannot disagree. Up to four tags fit.
+ *
+ *   On phones the corner labels are left off. Each card instead shows the
+ *   title, a line reading "sector . date", the description and the tags.
  *
  * To change a project's:
- *   pills under the name ...... tags
- *   text top left of artwork .. cornerLeft (one line per item, two or three
- *                               short lines look best)
+ *   pills and corner labels ... tags (one list, up to four short words)
  *   date, top right + phones .. date (free text: '2026', 'Oct 2026', 'Summer 2026')
  *   copy ...................... description
  *   link ...................... liveUrl ('' hides the Visit site link)
@@ -41,8 +43,6 @@
  * Editing apps tag exports with a TV colour standard, and browsers then show
  * the video a shade lighter than the flat colour around it (a visible edge).
  * The script fixes the tag without re-encoding.
- *
- * PLACEHOLDER: dates all read 2026 until the real ones are in.
  */
 
 export type Project = {
@@ -52,10 +52,11 @@ export type Project = {
   sector: string
   /** Top right of the artwork under the name, and on phone cards. */
   date: string
-  /** The pills under the paragraph. */
+  /**
+   * What we did. The pills under the paragraph and the labels in the top left
+   * of the artwork, in this order. The one source for both. Up to four.
+   */
   tags: string[]
-  /** Top left of the artwork, one line per item. */
-  cornerLeft: string[]
   description: string
   /** Frame background while this project is active. Match the cover. */
   frameColor: string
@@ -91,10 +92,9 @@ export const projects: Project[] = [
     slug: 'jack-olivia',
     sector: 'Structural engineering',
     date: '2026',
-    tags: ['Design', 'Development', 'Copy'],
-    cornerLeft: ['Design', 'Development'],
+    tags: ['Design', 'Development', 'SEO'],
     description:
-      'A structural engineering practice that wanted a site as considered as its work. We designed, built and wrote it, with project pages that let the buildings lead and clear pricing for site visits and advice.',
+      'A structural engineering practice that needed a site to match the standard of their work. Big project photography up front, simple project pages, and clear prices for site visits so clients know where they stand.',
     frameColor: '#5A483A',
     cover: '/work/jack-olivia/cover.webp',
     liveUrl: 'https://www.jackolivia.com',
@@ -105,9 +105,8 @@ export const projects: Project[] = [
     sector: 'Dental coaching',
     date: '2026',
     tags: ['Design', 'Development', 'Copy', 'SEO'],
-    cornerLeft: ['Design', 'Development'],
     description:
-      'A coaching brand for practice owners who are tired of being the emergency department. We built the whole thing from a blank page, including the scattered pain point cards that drift as you scroll.',
+      'A coaching business for dental practice owners. We built the site from scratch, including the pain point cards that scatter across the page as you scroll, written in the words owners actually use.',
     frameColor: '#0075D7',
     cover: '/work/dental-growth-lab/cover.webp',
     video: '/work/dental-growth-lab/loop.mp4',
@@ -119,9 +118,8 @@ export const projects: Project[] = [
     sector: 'Civil engineering',
     date: '2026',
     tags: ['Branding', 'Design', 'Development'],
-    cornerLeft: ['Branding', 'Design'],
     description:
-      'A civil engineering and building firm with no brand and no website. We built the identity first, a cream, navy and red palette with a bespoke mark, then a site that explains the whole job from start to finish.',
+      "A civil engineering firm with 30 years of work behind them and almost nothing to show for it online. We gave them a proper brand and mark, then built a site around an animation you won't have seen anywhere else.",
     frameColor: '#E60200',
     cover: '/work/cce-sussex/cover.webp',
     video: '/work/cce-sussex/loop.mp4',
@@ -133,9 +131,8 @@ export const projects: Project[] = [
     sector: 'Wellbeing',
     date: '2026',
     tags: ['Design', 'Development', 'SEO'],
-    cornerLeft: ['Design', 'Development'],
     description:
-      'A reflexology and Reiki practice that wanted booking to feel as calm as the treatments. We designed and built a soft, unhurried site with clear packages and a one tap route to book on WhatsApp, set up so local clients can find it.',
+      'A reflexology and Reiki practice. We kept the site gentle and easy to use: clear packages, one tap booking on WhatsApp, and local SEO so people nearby can find her.',
     frameColor: '#EFE5DA',
     cover: '/work/divine-align/cover.webp',
     liveUrl: 'https://www.divinealignhealing.co.uk',
@@ -145,10 +142,9 @@ export const projects: Project[] = [
     slug: 're-tyred',
     sector: 'Mobile tyre fitting',
     date: '2026',
-    tags: ['Branding', 'Design', 'Development'],
-    cornerLeft: ['Branding', 'Design'],
+    tags: ['Branding', 'Design', 'Development', 'SEO'],
     description:
-      'A mobile tyre fitting business covering West and East Sussex. We took it from brand to build, with a bold identity and a fast, clear site that gets people to call out or ask for a quote in a tap.',
+      'An established tyre business launching a new mobile fitting service. They trusted us to take over their old site, so we refreshed the brand and rebuilt it around the new service, with quick routes to call out a fitter or ask for a quote.',
     frameColor: '#F17315',
     cover: '/work/re-tyred/cover.webp',
     liveUrl: 'https://retyred.co.uk',
@@ -158,10 +154,9 @@ export const projects: Project[] = [
     slug: 'canopy-tide',
     sector: 'Luxury property',
     date: '2026',
-    tags: ['Design', 'Development', '3D'],
-    cornerLeft: ['Design', 'Development'],
+    tags: ['Design', 'Development', '3D', 'Concept'],
     description:
-      'A self initiated showpiece for luxury property. A fictional Bali villa told across seven full screen scenes, with a scroll driven 3D camera, a custom water shader and drifting particles, built in under 48 hours.',
+      'Our own side project to push what a property site can do. A made up Bali villa across seven full screen scenes, with a 3D camera that moves as you scroll, custom water and drifting particles. Built in under 48 hours.',
     frameColor: '#F2F3F0',
     cover: '/work/canopy-tide/cover.webp',
     video: '/work/canopy-tide/loop.mp4',

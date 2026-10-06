@@ -1,13 +1,17 @@
 import type { Project } from '@/content/projects'
 
-/** Pill tags: Design, Development, Copy, SEO and so on. */
+/**
+ * Pill tags: Design, Development, Copy, SEO and so on. Up to four, which
+ * fit on one line in the work column on a laptop or bigger, and wrap onto a
+ * second line below that.
+ */
 export function ProjectTags({ tags }: { tags: string[] }) {
   return (
-    <ul className="mt-4 flex flex-wrap gap-1.5">
+    <ul className="mt-4 flex flex-wrap gap-1">
       {tags.map((tag) => (
         <li
           key={tag}
-          className="rounded-full border border-ink px-2.5 py-[0.28rem] text-[0.78rem] leading-none"
+          className="rounded-full border border-ink px-2 py-[0.28rem] text-[0.78rem] leading-none"
         >
           {tag}
         </li>
