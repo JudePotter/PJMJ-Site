@@ -17,6 +17,21 @@ export const SCROLL_GLIDE = 0.8
 export const SCROLL_JUMP_GLIDE = 1.05
 export const SCRUB = 0.2
 
+/**
+ * The work field locks onto one client at a time. When the scroll stops inside
+ * it, the page glides to the nearest client, or on to the next one if you were
+ * heading that way.
+ *
+ * - SNAP_IDLE: how long the scroll must be still before it snaps (ms).
+ * - SNAP_GLIDE: how long the glide to the client takes (seconds).
+ * - SNAP_THRESHOLD: how far (px) past a client counts as "heading for the
+ *   next one". Under it, the page settles back, so a nudge of the trackpad
+ *   does not move you on, but one click of a wheel does.
+ */
+export const SNAP_IDLE = 120
+export const SNAP_GLIDE = 0.9
+export const SNAP_THRESHOLD = 32
+
 /** Easing for Motion (cubic bezier). Same curve as GSAP's power4.out. */
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 /** The GSAP name for the same curve: reveals, rises, settles. */

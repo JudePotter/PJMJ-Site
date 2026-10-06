@@ -524,6 +524,9 @@ html.lenis body {
   object-fit: cover;
   opacity: 0;
   transition: opacity 0.6s var(--ease);
+  /* Decoration only: no hover, so a browser's own video buttons (pop out,
+     skip) never appear on top of the artwork. */
+  pointer-events: none;
 }
 .stage-video[data-playing='true'] {
   opacity: 1;

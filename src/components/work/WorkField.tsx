@@ -10,6 +10,9 @@ import {
   EASE_WIPE,
   REDUCED_MQ,
   SCRUB,
+  SNAP_GLIDE,
+  SNAP_IDLE,
+  SNAP_THRESHOLD,
   WORK_PIN_MQ,
 } from '@/lib/scrollFeel'
 import Reveal from '../Reveal'
@@ -82,7 +85,6 @@ export default function WorkField() {
       const rows = q('[data-row]') as HTMLElement[]
       const smalls = q('[data-small]') as HTMLElement[]
       const bigs = q('[data-big]') as HTMLElement[]
-      const colours = projects.map((p) => p.frameColor)
 
       // Row heights are measured, not guessed, and re-measured on every
       // ScrollTrigger refresh (resize, fonts loading).
@@ -93,7 +95,24 @@ export default function WorkField() {
       // active project's video plays and the rest pause.
       let active = 0
       let inView = false
+
+      // Videos start downloading only once they are needed (preload="none"
+      // in DeviceStage), so the active one and the next one are fetched ahead
+      // of time. That way a video is ready to play the moment you land on it.
+      const warm = (i: number) => {
+        const video = pinnedVideos.current[i]
+        if (!video || video.dataset.warm || reduce || !canAutoplayVideo())
+          return
+        video.dataset.warm = 'true'
+        video.preload = 'auto'
+        video.load()
+      }
+
       const syncVideos = () => {
+        if (inView) {
+          warm(active)
+          warm(active + 1)
+        }
         pinnedVideos.current.forEach((video, i) => {
           if (!video) return
           if (inView && !reduce && i === active && canAutoplayVideo())
@@ -126,10 +145,7 @@ export default function WorkField() {
         syncVideos()
       }
 
-      gsap.set(frame, {
-        backgroundColor: colours[0],
-        transformOrigin: '50% 55%',
-      })
+      gsap.set(frame, { transformOrigin: '50% 55%' })
       if (reduce) gsap.set(slides, { clipPath: 'none' })
 
       // Entry: the frame scales up from smaller as the section arrives, so it
@@ -194,21 +210,10 @@ export default function WorkField() {
         // tween that owns its starting value, so these must not render early.
         const later = i > 0
 
-        // The frame colour tweens to the next client's.
-        tl.fromTo(
-          frame,
-          { backgroundColor: colours[i] },
-          {
-            backgroundColor: colours[next],
-            duration: TRANS,
-            ease: 'power2.inOut',
-            immediateRender: !later,
-          },
-          at,
-        )
-
         // The next project wipes in from the bottom (a clip path reveal).
-        // Reduced motion crossfades instead.
+        // Each slide carries its own background colour, so the new client's
+        // colour arrives together with its artwork and no strip of the wrong
+        // colour shows beside it. Reduced motion crossfades instead.
         if (reduce) {
           tl.fromTo(
             slides[next],
@@ -316,15 +321,78 @@ export default function WorkField() {
       // The last project holds before the stage lets go.
       tl.to({}, { duration: HOLD }, N - 1)
 
-      const goTo = (index: number) => {
-        const st = tl.scrollTrigger
-        if (!st) return
-        const y =
-          st.start + (index / total) * (st.end - st.start) + (index > 0 ? 4 : 0)
-        scrollToY(y)
-      }
+      const st = tl.scrollTrigger
+      if (!st) return
+
+      // Where each client sits on the page (px). Measured fresh on every call,
+      // because ScrollTrigger re-measures on resize.
+      const restY = (index: number) =>
+        st.start + (index / total) * (st.end - st.start) + (index > 0 ? 4 : 0)
+
+      const goTo = (index: number) => scrollToY(restY(index))
       goToRef.current = goTo
       registerProjectNav(goTo)
+
+      // Lock onto one client at a time, so nobody has to scroll down and back
+      // up to see a video. Nothing is forced: it only happens once the scroll
+      // has been still for a moment inside the pinned range, and a scroll that
+      // keeps going carries straight on. Reduced motion keeps plain scrolling.
+      let snapTimer: number | undefined
+      let lastY = window.scrollY
+      let startY = lastY
+      let moving = false
+      let heading = 0
+
+      const settle = () => {
+        moving = false
+        const y = window.scrollY
+        const rests = projects.map((_, i) => restY(i))
+        if (y < rests[0] - 1 || y > st.end + 1) return
+
+        let target: number
+        const cameFromInside = startY >= rests[0] - 1 && startY <= st.end + 1
+        if (
+          cameFromInside &&
+          heading > 0 &&
+          y > rests[N - 1] + SNAP_THRESHOLD
+        ) {
+          return // heading out past the last client: let the page go
+        }
+
+        let behind = 0
+        rests.forEach((rest, i) => {
+          if (rest <= y + 0.5) behind = i
+        })
+        const ahead = Math.min(behind + 1, N - 1)
+
+        if (!cameFromInside) {
+          // Just arrived from above or below: land on whichever is nearest.
+          target = y - rests[behind] > rests[ahead] - y ? ahead : behind
+        } else if (heading >= 0) {
+          target = y - rests[behind] > SNAP_THRESHOLD ? ahead : behind
+        } else {
+          target =
+            ahead > behind && rests[ahead] - y > SNAP_THRESHOLD ? behind : ahead
+        }
+        if (Math.abs(rests[target] - y) > 1)
+          scrollToY(rests[target], SNAP_GLIDE)
+      }
+
+      const onScroll = () => {
+        const y = window.scrollY
+        if (!moving) {
+          moving = true
+          startY = lastY
+        }
+        if (y !== lastY) {
+          heading = y > lastY ? 1 : -1
+          lastY = y
+        }
+        window.clearTimeout(snapTimer)
+        snapTimer = window.setTimeout(settle, SNAP_IDLE)
+      }
+      if (!reduce)
+        window.addEventListener('scroll', onScroll, { passive: true })
 
       ScrollTrigger.create({
         trigger: section,
@@ -337,6 +405,8 @@ export default function WorkField() {
       })
 
       return () => {
+        window.removeEventListener('scroll', onScroll)
+        window.clearTimeout(snapTimer)
         registerProjectNav(null)
         goToRef.current = () => {}
         pinnedVideos.current.forEach((video) => video?.pause())
@@ -436,7 +506,10 @@ export default function WorkField() {
                   key={project.slug}
                   data-slide={i}
                   className="absolute inset-0"
-                  style={{ zIndex: i + 1 }}
+                  style={{
+                    zIndex: i + 1,
+                    backgroundColor: project.frameColor,
+                  }}
                 >
                   <DeviceStage
                     project={project}

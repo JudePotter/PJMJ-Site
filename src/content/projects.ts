@@ -36,6 +36,12 @@
  *   cover.webp   the 5:4 artwork (also the poster until the video plays)
  *   loop.mp4     optional muted looping video, same 5:4 composition
  *
+ * ADDING OR REPLACING A VIDEO: run it through the tagging script once,
+ *   python3 scripts/tag-video-srgb.py public/work/[slug]/loop.mp4
+ * Editing apps tag exports with a TV colour standard, and browsers then show
+ * the video a shade lighter than the flat colour around it (a visible edge).
+ * The script fixes the tag without re-encoding.
+ *
  * PLACEHOLDER: dates all read 2026 until the real ones are in.
  */
 

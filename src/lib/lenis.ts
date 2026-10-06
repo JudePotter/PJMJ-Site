@@ -11,10 +11,10 @@ export function setLenis(lenis: Lenis | null) {
 }
 
 /** Scroll to a position (px), gliding when Lenis is running. */
-export function scrollToY(y: number) {
+export function scrollToY(y: number, duration = SCROLL_JUMP_GLIDE) {
   if (instance) {
     instance.scrollTo(y, {
-      duration: SCROLL_JUMP_GLIDE,
+      duration,
       easing: easeOutCubic,
       force: true,
     })

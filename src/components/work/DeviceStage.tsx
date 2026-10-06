@@ -9,9 +9,11 @@ import type { Project } from '@/content/projects'
  * image, with the muted looping video (when there is one) fading in over it
  * once it is actually playing.
  *
- * The box is contained inside the frame and the frame is painted the artwork's
- * background colour, so wider frames show no edge. Must sit inside a
- * .work-frame, which is the size container the units in globals.css use.
+ * The box is contained inside the frame and whatever holds it is painted the
+ * artwork's background colour (the project's frameColor), so wider frames show
+ * no edge. The videos must be tagged as sRGB (see the note in projects.ts), or
+ * browsers show them a shade off that colour. Must sit inside a .work-frame,
+ * which is the size container the units in globals.css use.
  */
 export default function DeviceStage({
   project,
@@ -49,6 +51,8 @@ export default function DeviceStage({
             loop
             playsInline
             preload="none"
+            disablePictureInPicture
+            disableRemotePlayback
             aria-hidden="true"
             tabIndex={-1}
             onPlaying={(e) => {
